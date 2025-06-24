@@ -1,0 +1,30 @@
+{
+  "name": "maplify-backend",
+  "version": "1.0.0",
+  "description": "A RESTful API and React frontend application that generates hierarchical mind maps from any topic using OpenAI’s GPT models. Ideal for students, educators, and content creators to visualize ideas and concepts dynamically.",
+  "keywords": [
+    "mindmap",
+    "openai",
+    "api",
+    "react",
+    "gpt",
+    "visualization",
+    "education",
+    "brainstorming"
+  ],
+  "homepage": "https://github.com/Techlead-ANKAN/Maplify#readme",
+  "bugs": {
+    "url": "https://github.com/Techlead-ANKAN/Maplify/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Techlead-ANKAN/Maplify.git"
+  },
+  "license": "ISC",
+  "author": "ANKAN MAITY",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
