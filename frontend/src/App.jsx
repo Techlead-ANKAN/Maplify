@@ -102,7 +102,7 @@ function App() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/mindmap/${encodeURIComponent(topic)}`
+        `${import.meta.env.VITE_API_URL}api/mindmap/${encodeURIComponent(topic)}`
       );
       
       if (!response.ok) {
