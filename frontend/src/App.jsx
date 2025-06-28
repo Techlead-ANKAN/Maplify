@@ -95,21 +95,21 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!topic.trim()) return;
-    
+
     setIsLoading(true);
     setError("");
     setMindMapData(null);
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/mindmap/${encodeURIComponent(topic)}`
+        `https://maplify-backend.onrender.com/api/mindmap/${encodeURIComponent(topic)}`
       );
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to generate mind map");
       }
-      
+
       const data = await response.json();
       setMindMapData(data);
     } catch (err) {
@@ -141,8 +141,8 @@ function App() {
               className="search-input"
               disabled={isLoading}
             />
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="search-button"
               disabled={isLoading || !topic.trim()}
             >
