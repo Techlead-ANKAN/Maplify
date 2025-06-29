@@ -1,87 +1,3 @@
-// import React, { useState } from 'react'
-// import MindMap from "./components/MindMap.jsx"
-
-// function App() {
-//   const [courseName, setCourseName] = useState("");
-//   const [mindMapData, setMindMapData] = useState(null);
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await fetch(`http://localhost:3000/api/mindmap/${courseName}`)
-//       const data = await response.json();
-//       console.log(data)
-//       setMindMapData(data);
-//     } catch (error) {
-//       console.error('Error fetching mind map data:', error);
-//     }
-//   }
-
-//   return (
-//     <div>
-//       <h1>Mind Map Generator</h1>
-//       <form onSubmit={handleSubmit}>
-//         <input
-//           type="text"
-//           value={courseName}
-//           onChange={(e) => setCourseName(e.target.value)}
-//           placeholder="Enter what you want to learn"
-//           required
-//         />
-//         <button type='submit'>Generate Mind Map</button>
-//       </form>
-//       {mindMapData && <MindMap data={mindMapData} />}
-//     </div>
-//   )
-// }
-
-
-
-
-// export default App;
-
-// import React, { useState } from "react";
-// import MindMap from "./components/MindMap";
-
-// function App() {
-//   const [courseName, setCourseName] = useState("");
-//   const [mindMapData, setMindMapData] = useState(null);
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await fetch(`http://localhost:3000/api/mindmap/${courseName}`);
-//       if (!response.ok) throw new Error('Network response was not ok');
-//       const data = await response.json();
-//       setMindMapData(data);
-//     } catch (error) {
-//       console.error('Error fetching mind map data:', error);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h1>Mind Map Generator</h1>
-//       <form onSubmit={handleSubmit}>
-//         <input
-//           value={courseName}
-//           onChange={(e) => setCourseName(e.target.value)}
-//           placeholder="Enter course name"
-//         />
-//         <button type="submit">Generate Mind Map</button>
-//       </form>
-//       {mindMapData && <MindMap data={mindMapData} />}
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-
-
-
-
 import React, { useState } from "react";
 import MindMap from "./components/MindMap.jsx";
 import "./App.css";
@@ -102,7 +18,7 @@ function App() {
 
     try {
       const response = await fetch(
-        `https://maplify-backend.onrender.com/api/mindmap/${encodeURIComponent(topic)}`
+        `http://localhost:3000/api/mindmap/${encodeURIComponent(topic)}`
       );
 
       if (!response.ok) {
@@ -111,7 +27,11 @@ function App() {
       }
 
       const data = await response.json();
-      setMindMapData(data);
+      if (data.mindmap) {
+        setMindMapData(data.mindmap);
+      } else {
+        setMindMapData(data); // fallback for old format
+      }
     } catch (err) {
       setError(err.message);
       console.error("Error:", err);
