@@ -170,10 +170,12 @@ body::before {
 }
 
 @keyframes gradientShift {
+
   0%,
   100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
@@ -209,6 +211,7 @@ body::before {
   0% {
     left: -100%;
   }
+
   100% {
     left: 100%;
   }
@@ -494,6 +497,7 @@ body::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -540,5 +544,120 @@ body::before {
   .search-form,
   .app-footer {
     display: none;
+  }
+}
+
+
+/* App.css */
+.app-footer {
+  background: linear-gradient(135deg, var(--background-secondary), var(--background-tertiary));
+  border-top: 1px solid var(--border-secondary);
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.separator-line {
+  height: 1px;
+  flex: 1;
+  background: var(--border-secondary);
+  min-width: 50px;
+  max-width: 100px;
+}
+
+.copyright {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.footer-right {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0 var(--spacing-xs);
+}
+
+.footer-link:hover {
+  color: white;
+  transform: translateY(-2px);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--border-secondary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.footer-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-left {
+    flex: 1;
+    justify-content: flex-start;
+  }
+
+  .footer-right {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-left {
+    flex-direction: column;
+  }
+
+  .separator-line {
+    min-width: 100px;
+    max-width: 150px;
+  }
+
+  .footer-link {
+    font-size: 0.8rem;
+    padding: var(--spacing-xs) 0;
   }
 }

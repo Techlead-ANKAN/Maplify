@@ -94,9 +94,40 @@ function App() {
 
         {mindMapData && <MindMap data={mindMapData} />}
       </main>
-
       <footer className="app-footer">
-        <p>© {new Date().getFullYear()} MindMapper | Transform Learning into Insight</p>
+        <div className="footer-content">
+          <div className="footer-left">
+            <div className="separator-line"></div>
+            <p className="copyright">© {new Date().getFullYear()} MindMapper | Transform Learning into Insight | Built by: Techlead-ANKAN</p>
+            <div className="separator-line"></div>
+          </div>
+          <div className="footer-right">
+            <a
+              href="https://portfolio-ankan.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              Portfolio
+            </a>
+            <a
+              href="https://github.com/Techlead-ANKAN"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ankan-maity"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   );
