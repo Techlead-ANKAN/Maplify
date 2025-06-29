@@ -112,7 +112,6 @@ function App() {
 
       const data = await response.json();
       setMindMapData(data);
-      console.log(data); // #
     } catch (err) {
       setError(err.message);
       console.error("Error:", err);
