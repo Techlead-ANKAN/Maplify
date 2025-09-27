@@ -57,6 +57,9 @@ export default {
         "float": "float 6s ease-in-out infinite",
         "glow": "glow 2s ease-in-out infinite alternate",
         "aurora": "aurora 60s linear infinite",
+        "meteor-effect": "meteor-effect linear infinite",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "gradient": "gradient 3s ease infinite",
       },
       keyframes: {
         "accordion-down": {
@@ -97,6 +100,35 @@ export default {
           },
           to: {
             backgroundPosition: "350% 50%, 350% 50%",
+          },
+        },
+        "meteor-effect": {
+          "0%": {
+            transform: "rotate(215deg) translateX(0)",
+            opacity: "1",
+          },
+          "70%": {
+            opacity: "1",
+          },
+          "100%": {
+            transform: "rotate(215deg) translateX(-500px)",
+            opacity: "0",
+          },
+        },
+        "pulse-glow": {
+          "0%, 100%": {
+            boxShadow: "0 0 5px rgba(255, 255, 255, 0.1)",
+          },
+          "50%": {
+            boxShadow: "0 0 20px rgba(255, 255, 255, 0.2), 0 0 40px rgba(255, 255, 255, 0.1)",
+          },
+        },
+        "gradient": {
+          "0%, 100%": {
+            backgroundPosition: "0% 50%",
+          },
+          "50%": {
+            backgroundPosition: "100% 50%",
           },
         },
       },

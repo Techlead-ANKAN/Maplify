@@ -1,11 +1,26 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Brain, Sparkles, Download, Copy, Eye, FileText, Zap, GitBranch } from "lucide-react";
-import MindMap from "./components/MindMap.jsx";
-import { AuroraBackground } from "./components/ui/aurora-background.jsx";
-import { BackgroundBeams } from "./components/ui/background-beams.jsx";
-import { FloatingElements } from "./components/ui/floating-elements.jsx";
+import { 
+  Search, 
+  Brain, 
+  Sparkles, 
+  ArrowRight, 
+  Github, 
+  Linkedin, 
+  Globe,
+  Zap,
+  Target,
+  BookOpen,
+  Star,
+  ChevronDown
+} from "lucide-react";
+import ModernMindMap from "./components/ModernMindMap.jsx";
+import { Spotlight } from "./components/ui/spotlight.jsx";
+import { GridBackground } from "./components/ui/background-patterns.jsx";
+import { MeteorEffect } from "./components/ui/meteors.jsx";
 import { TextGenerateEffect } from "./components/ui/text-generate-effect.jsx";
+import { HoverEffect } from "./components/ui/card-hover-effect.jsx";
+import { MobileNav } from "./components/ui/mobile-nav.jsx";
 import { Button } from "./components/ui/button.jsx";
 import { Input } from "./components/ui/input.jsx";
 import { cn } from "./lib/utils.js";
@@ -50,166 +65,244 @@ function App() {
 
   const features = [
     {
-      icon: <Brain className="w-6 h-6" />,
-      title: "AI-Powered Mind Maps",
-      description: "Generate comprehensive learning roadmaps using advanced AI technology"
+      title: "AI-Powered Generation",
+      description: "Advanced artificial intelligence creates comprehensive learning roadmaps tailored to any topic you choose.",
+      link: "#"
     },
     {
-      icon: <Zap className="w-6 h-6" />,
-      title: "Instant Generation",
-      description: "Create detailed mind maps in seconds, not hours"
+      title: "Instant Results",
+      description: "Generate detailed mind maps in seconds, not hours. Transform complex topics into structured knowledge instantly.",
+      link: "#"
     },
     {
-      icon: <GitBranch className="w-6 h-6" />,
-      title: "Hierarchical Structure",
-      description: "Organized content with clear progression and connections"
+      title: "Interactive Learning",
+      description: "Navigate through hierarchical content with expandable nodes, resources, and clear progression paths.",
+      link: "#"
+    },
+    {
+      title: "Export & Share",
+      description: "Download your mind maps as PDFs or copy raw data to share your learning roadmaps with others.",
+      link: "#"
+    },
+    {
+      title: "Resource Integration",
+      description: "Each node includes relevant learning resources, articles, and links to enhance your understanding.",
+      link: "#"
+    },
+    {
+      title: "Visual Organization",
+      description: "Clean, modern interface that makes complex information easy to understand and navigate.",
+      link: "#"
     }
   ];
 
+  const stats = [
+    { label: "Mind Maps Generated", value: "10K+" },
+    { label: "Topics Covered", value: "500+" },
+    { label: "Learning Paths", value: "1M+" },
+    { label: "Resources Curated", value: "50K+" }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-      <FloatingElements />
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Background Elements */}
+      <GridBackground />
+      <MeteorEffect number={30} />
       
+      {/* Spotlight Effect */}
+      <Spotlight
+        className="top-40 left-0 md:left-60 md:-top-20"
+        fill="white"
+      />
+
       {/* Header */}
       <motion.header 
-        className="relative z-10 border-b border-slate-200/50 dark:border-slate-700/50 glass"
+        className="relative z-30 border-b border-white/5"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <motion.div 
-              className="flex items-center space-x-3"
-              whileHover={{ scale: 1.05 }}
+              className="flex items-center space-x-4"
+              whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
-                <Brain className="w-8 h-8 text-white" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-white/20 rounded-2xl blur-xl" />
+                <div className="relative p-3 bg-white text-black rounded-2xl">
+                  <Brain className="w-7 h-7" />
+                </div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold text-white">
                   Maplify
                 </h1>
-                <p className="text-sm text-slate-600 dark:text-slate-400">AI Learning Roadmaps</p>
+                <p className="text-sm text-white/60">AI Knowledge Mapping</p>
               </div>
             </motion.div>
             
             <motion.div 
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-              <div className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
+              <div className="hidden md:flex items-center space-x-4 text-white/60">
+                <a 
+                  href="https://github.com/Techlead-ANKAN" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  <Github className="w-5 h-5" />
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/ankan-maity" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a 
+                  href="https://portfolio-ankan.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  <Globe className="w-5 h-5" />
+                </a>
+              </div>
+              <div className="px-3 py-1.5 bg-white/10 border border-white/20 text-white/80 rounded-full text-xs font-medium backdrop-blur-sm">
                 Beta
               </div>
+              <MobileNav />
             </motion.div>
           </div>
         </div>
       </motion.header>
 
-      <main className="relative z-10">
+      <main className="relative z-20">
         {/* Hero Section */}
         {!mindMapData && (
           <motion.section 
-            className="relative py-20 px-4 sm:px-6 lg:px-8"
+            className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
-            <div className="max-w-4xl mx-auto text-center">
-              <motion.div
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <TextGenerateEffect 
-                  words="Transform Any Topic Into Visual Learning Roadmaps"
-                  className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent"
-                />
-              </motion.div>
-              
-              <motion.p 
-                className="text-xl text-slate-600 dark:text-slate-300 mb-12 max-w-2xl mx-auto"
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                Generate comprehensive, AI-powered mind maps that break down complex topics into 
-                structured learning paths with resources and actionable insights.
-              </motion.p>
-
-              {/* Search Form */}
-              <motion.form 
-                onSubmit={handleSubmit}
-                className="max-w-2xl mx-auto mb-16"
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 text-slate-400" />
+            <div className="max-w-6xl mx-auto">
+              {/* Hero Content */}
+              <div className="text-center mb-20">
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="mb-8"
+                >
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/70 text-sm mb-8">
+                    <Star className="w-4 h-4" />
+                    Powered by Advanced AI
                   </div>
-                  <Input
-                    type="text"
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    placeholder="Enter any topic (e.g., Machine Learning, Web Development, Data Science...)"
-                    className="pl-12 pr-32 h-14 text-lg glass border-slate-200/50 dark:border-slate-700/50"
-                    disabled={isLoading}
+                  
+                  <TextGenerateEffect 
+                    words="Transform Complex Topics Into Visual Learning Journeys"
+                    className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight"
                   />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2">
-                    <Button
-                      type="submit"
-                      disabled={isLoading || !topic.trim()}
-                      size="lg"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-6 py-2 rounded-lg shadow-lg"
-                    >
-                      {isLoading ? (
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        >
-                          <Sparkles className="w-5 h-5" />
-                        </motion.div>
-                      ) : (
-                        <>
-                          <Sparkles className="w-5 h-5 mr-2" />
-                          Generate
-                        </>
-                      )}
-                    </Button>
+                </motion.div>
+                
+                <motion.p 
+                  className="text-xl md:text-2xl text-white/60 mb-12 max-w-3xl mx-auto leading-relaxed"
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                >
+                  Generate comprehensive, AI-powered mind maps that break down any subject into structured learning paths with curated resources and actionable insights.
+                </motion.p>
+
+                {/* Search Form */}
+                <motion.form 
+                  onSubmit={handleSubmit}
+                  className="max-w-3xl mx-auto mb-16"
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                >
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-white/5 rounded-2xl backdrop-blur-sm" />
+                    <div className="relative flex items-center p-2">
+                      <div className="flex items-center pl-4 text-white/40">
+                        <Search className="h-6 w-6" />
+                      </div>
+                      <Input
+                        type="text"
+                        value={topic}
+                        onChange={(e) => setTopic(e.target.value)}
+                        placeholder="Enter any topic (e.g., Machine Learning, Quantum Physics, Web Development...)"
+                        className="flex-1 bg-transparent border-0 text-white placeholder-white/40 text-lg px-4 py-4 focus:ring-0 focus:outline-none"
+                        disabled={isLoading}
+                      />
+                      <Button
+                        type="submit"
+                        disabled={isLoading || !topic.trim()}
+                        className="bg-white text-black hover:bg-white/90 font-semibold px-8 py-4 rounded-xl transition-all duration-200 flex items-center gap-2"
+                      >
+                        {isLoading ? (
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          >
+                            <Sparkles className="w-5 h-5" />
+                          </motion.div>
+                        ) : (
+                          <>
+                            Generate
+                            <ArrowRight className="w-5 h-5" />
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </motion.form>
+                </motion.form>
+
+                {/* Stats */}
+                <motion.div
+                  className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto mb-20"
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                >
+                  {stats.map((stat, index) => (
+                    <div key={index} className="text-center">
+                      <div className="text-2xl md:text-3xl font-bold text-white mb-1">
+                        {stat.value}
+                      </div>
+                      <div className="text-white/60 text-sm">
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
 
               {/* Features Grid */}
-              <motion.div 
-                className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+              <motion.div
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
+                transition={{ duration: 0.8, delay: 1 }}
               >
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    className="group p-6 rounded-2xl glass border border-slate-200/50 dark:border-slate-700/50 hover:border-blue-300/50 dark:hover:border-blue-600/50 transition-all duration-300"
-                    whileHover={{ y: -5, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  >
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
-                      {feature.title}
-                    </h3>
-                    <p className="text-slate-600 dark:text-slate-300">
-                      {feature.description}
-                    </p>
-                  </motion.div>
-                ))}
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    Everything You Need to Learn Effectively
+                  </h2>
+                  <p className="text-white/60 text-lg">
+                    Powerful features designed to accelerate your learning journey
+                  </p>
+                </div>
+                
+                <HoverEffect items={features} className="max-w-5xl mx-auto" />
               </motion.div>
             </div>
           </motion.section>
@@ -219,47 +312,52 @@ function App() {
         <AnimatePresence>
           {isLoading && (
             <motion.div 
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+              className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               <motion.div 
-                className="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center max-w-md mx-4 shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
+                className="bg-white/10 border border-white/20 rounded-3xl p-8 text-center max-w-md mx-4 backdrop-blur-sm"
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
                 <motion.div 
-                  className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center"
+                  className="w-20 h-20 mx-auto mb-6 bg-white/10 rounded-full flex items-center justify-center relative"
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 >
-                  <Brain className="w-8 h-8 text-white" />
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/20 to-transparent" />
+                  <Brain className="w-10 h-10 text-white relative z-10" />
                 </motion.div>
-                <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+                
+                <h3 className="text-2xl font-bold text-white mb-3">
                   Crafting Your Knowledge Map
                 </h3>
-                <p className="text-slate-600 dark:text-slate-300 mb-4">
-                  Our AI is analyzing your topic and creating a comprehensive learning roadmap...
+                <p className="text-white/60 mb-6 leading-relaxed">
+                  Our AI is analyzing your topic and creating a comprehensive learning roadmap with curated resources...
                 </p>
-                <div className="flex justify-center">
-                  <div className="flex space-x-1">
-                    {[0, 1, 2].map((i) => (
-                      <motion.div
-                        key={i}
-                        className="w-2 h-2 bg-blue-500 rounded-full"
-                        animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                        transition={{ 
-                          duration: 1.5, 
-                          repeat: Infinity, 
-                          delay: i * 0.2,
-                          ease: "easeInOut"
-                        }}
-                      />
-                    ))}
-                  </div>
+                
+                <div className="flex justify-center items-center space-x-2">
+                  {[0, 1, 2].map((i) => (
+                    <motion.div
+                      key={i}
+                      className="w-2 h-2 bg-white/60 rounded-full"
+                      animate={{ 
+                        scale: [1, 1.5, 1], 
+                        opacity: [0.4, 1, 0.4],
+                        y: [0, -8, 0]
+                      }}
+                      transition={{ 
+                        duration: 1.5, 
+                        repeat: Infinity, 
+                        delay: i * 0.2,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  ))}
                 </div>
               </motion.div>
             </motion.div>
@@ -270,19 +368,26 @@ function App() {
         <AnimatePresence>
           {error && (
             <motion.div 
-              className="max-w-2xl mx-auto px-4 py-8"
+              className="max-w-2xl mx-auto px-4 py-8 relative z-30"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
             >
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/50 rounded-xl p-6 text-center">
-                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Brain className="w-6 h-6 text-red-600 dark:text-red-400" />
+              <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-center backdrop-blur-sm">
+                <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Brain className="w-8 h-8 text-red-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-red-900 dark:text-red-100 mb-2">
-                  Oops! Something went wrong
+                <h3 className="text-xl font-semibold text-red-100 mb-3">
+                  Something went wrong
                 </h3>
-                <p className="text-red-700 dark:text-red-300">{error}</p>
+                <p className="text-red-300/80 mb-4">{error}</p>
+                <Button
+                  onClick={() => setError("")}
+                  variant="outline"
+                  className="border-red-500/30 text-red-300 hover:bg-red-500/10"
+                >
+                  Try Again
+                </Button>
               </div>
             </motion.div>
           )}
@@ -292,14 +397,34 @@ function App() {
         <AnimatePresence>
           {mindMapData && (
             <motion.div 
-              className="px-4 sm:px-6 lg:px-8 pb-20"
+              className="px-4 sm:px-6 lg:px-8 pb-20 relative z-20"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <div className="max-w-7xl mx-auto">
-                <MindMap data={mindMapData} />
+                {/* Back button */}
+                <motion.div
+                  className="mb-8"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <Button
+                    onClick={() => {
+                      setMindMapData(null);
+                      setTopic("");
+                    }}
+                    variant="outline"
+                    className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30"
+                  >
+                    <ChevronDown className="w-4 h-4 mr-2 rotate-90" />
+                    Generate Another Map
+                  </Button>
+                </motion.div>
+                
+                <ModernMindMap data={mindMapData} />
               </div>
             </motion.div>
           )}
@@ -308,57 +433,71 @@ function App() {
 
       {/* Footer */}
       <motion.footer 
-        className="relative z-10 border-t border-slate-200/50 dark:border-slate-700/50 glass mt-20"
+        className="relative z-20 border-t border-white/5 mt-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
+            <div className="flex items-center justify-center space-x-3 mb-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-white/20 rounded-xl blur-lg" />
+                <div className="relative w-10 h-10 bg-white text-black rounded-xl flex items-center justify-center">
+                  <Brain className="w-6 h-6" />
+                </div>
               </div>
-              <span className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold text-white">
                 Maplify
               </span>
             </div>
-            <p className="text-slate-600 dark:text-slate-400 mb-6">
-              Transform Learning into Insight • Built with ❤️ by{" "}
-              <a 
-                href="https://portfolio-ankan.vercel.app/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
-              >
-                Techlead-ANKAN
-              </a>
+            
+            <p className="text-white/60 mb-8 max-w-md mx-auto">
+              Transform complex knowledge into visual learning journeys. Built with passion for learners worldwide.
             </p>
-            <div className="flex justify-center space-x-6">
+            
+            <div className="flex justify-center items-center space-x-8 mb-8">
               <a
                 href="https://portfolio-ankan.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className="flex items-center space-x-2 text-white/60 hover:text-white transition-colors duration-200"
               >
-                Portfolio
+                <Globe className="w-4 h-4" />
+                <span>Portfolio</span>
               </a>
               <a
                 href="https://github.com/Techlead-ANKAN"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className="flex items-center space-x-2 text-white/60 hover:text-white transition-colors duration-200"
               >
-                GitHub
+                <Github className="w-4 h-4" />
+                <span>GitHub</span>
               </a>
               <a
                 href="https://www.linkedin.com/in/ankan-maity"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className="flex items-center space-x-2 text-white/60 hover:text-white transition-colors duration-200"
               >
-                LinkedIn
+                <Linkedin className="w-4 h-4" />
+                <span>LinkedIn</span>
               </a>
+            </div>
+            
+            <div className="border-t border-white/10 pt-8">
+              <p className="text-white/40 text-sm">
+                © 2024 Maplify. Created by{" "}
+                <a 
+                  href="https://portfolio-ankan.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-white/60 hover:text-white font-medium transition-colors"
+                >
+                  Techlead-ANKAN
+                </a>
+              </p>
             </div>
           </div>
         </div>
