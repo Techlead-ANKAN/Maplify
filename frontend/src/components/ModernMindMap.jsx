@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   ChevronRight, 
   ChevronDown, 
-  Download, 
   Copy, 
   ExternalLink, 
   FileText, 
@@ -13,7 +12,6 @@ import {
   BookOpen,
   Link as LinkIcon
 } from "lucide-react";
-import jsPDF from "jspdf";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card-hover-effect";
 import { cn } from "../lib/utils";
@@ -225,51 +223,7 @@ const ModernMindMap = ({ data }) => {
     }
   };
 
-  const handleDownloadPDF = async () => {
-    try {
-      setIsLoading(true);
-      setStatus({ message: "Generating PDF...", type: "info" });
 
-      const doc = new jsPDF();
-      const title = data.topic || "Mind Map";
-      
-      // Title
-      doc.setFontSize(24);
-      doc.text(title, 20, 30);
-      
-      // Generate content
-      let yPosition = 50;
-      const addContent = (items, depth = 0) => {
-        items.forEach(item => {
-          if (yPosition > 270) {
-            doc.addPage();
-            yPosition = 20;
-          }
-          
-          const indent = depth * 10;
-          doc.setFontSize(14 - depth);
-          doc.text(`${"  ".repeat(depth)}• ${item.title}`, 20 + indent, yPosition);
-          yPosition += 10;
-          
-          if (item.children && item.children.length > 0) {
-            addContent(item.children, depth + 1);
-          }
-        });
-      };
-
-      if (data.subtopics) {
-        addContent(data.subtopics);
-      }
-
-      doc.save(`${title.replace(/[^a-zA-Z0-9]/g, '_')}_mindmap.pdf`);
-      setStatus({ message: "PDF downloaded successfully!", type: "success" });
-    } catch (err) {
-      setStatus({ message: "Failed to generate PDF", type: "error" });
-    } finally {
-      setIsLoading(false);
-      setTimeout(() => setStatus({ message: "", type: "" }), 3000);
-    }
-  };
 
   const countNodes = (nodes) => {
     if (!nodes) return 0;
@@ -322,17 +276,6 @@ const ModernMindMap = ({ data }) => {
               >
                 <Copy className="w-4 h-4 mr-2" />
                 Copy Data
-              </Button>
-              
-              <Button
-                onClick={handleDownloadPDF}
-                disabled={isLoading}
-                variant="outline"
-                size="sm"
-                className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Export PDF
               </Button>
             </div>
           </div>

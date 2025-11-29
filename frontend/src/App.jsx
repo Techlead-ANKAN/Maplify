@@ -44,12 +44,24 @@ function App() {
         `http://localhost:3000/api/mindmap/${encodeURIComponent(topic)}`
       );
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to generate mind map");
+        // Handle rate limit errors specifically
+        if (response.status === 429) {
+          throw new Error(
+            data.message || "API rate limit exceeded. Please wait a moment and try again."
+          );
+        }
+        // Handle authentication errors
+        if (response.status === 401 || response.status === 403) {
+          throw new Error(
+            data.message || "Invalid API key. Please check your Gemini API configuration."
+          );
+        }
+        throw new Error(data.message || data.error || "Failed to generate mind map");
       }
 
-      const data = await response.json();
       if (data.mindmap) {
         setMindMapData(data.mindmap);
       } else {
@@ -81,7 +93,7 @@ function App() {
     },
     {
       title: "Export & Share",
-      description: "Download your mind maps as PDFs or copy raw data to share your learning roadmaps with others.",
+      description: "Copy your mind map data to share your learning roadmaps with others and save for future reference.",
       link: "#"
     },
     {
