@@ -1,192 +1,166 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ChevronRight, 
-  ChevronDown, 
+  ChevronRight,
   Copy, 
   ExternalLink, 
-  FileText, 
-  Zap,
   Brain,
   Target,
   BookOpen,
-  Link as LinkIcon
+  FileText,
+  CheckCircle2,
+  Circle
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { Card } from "./ui/card-hover-effect";
 import { cn } from "../lib/utils";
 
 const iconMap = {
   0: Brain,
   1: Target,
   2: BookOpen,
-  3: FileText,
-  default: Zap
+  3: FileText
 };
 
-const MindMapNode = ({ node, level = 0, index = 0 }) => {
+const MindMapNode = ({ node, level = 0, index = 0, parentIndex = "" }) => {
   const [expanded, setExpanded] = useState(level < 2);
-  const [hovering, setHovering] = useState(false);
 
   if (!node) return null;
 
   const isRoot = level === 0;
   const hasChildren = node.children && node.children.length > 0;
-  const IconComponent = iconMap[level] || iconMap.default;
-
-  const nodeVariants = {
-    hidden: { opacity: 0, x: -20, scale: 0.9 },
-    visible: { 
-      opacity: 1, 
-      x: 0, 
-      scale: 1,
-      transition: { 
-        duration: 0.5, 
-        delay: index * 0.1,
-        ease: "easeOut"
-      }
-    },
-    hover: {
-      scale: 1.02,
-      transition: { duration: 0.2 }
-    }
-  };
-
-  const childrenVariants = {
-    hidden: { opacity: 0, height: 0 },
-    visible: { 
-      opacity: 1, 
-      height: "auto",
-      transition: { 
-        duration: 0.3,
-        ease: "easeInOut"
-      }
-    }
-  };
+  const IconComponent = iconMap[level] || Circle;
+  const nodeNumber = parentIndex ? `${parentIndex}.${index + 1}` : `${index + 1}`;
 
   return (
     <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.3 }}
       className={cn(
         "relative",
-        isRoot ? "mb-8" : "mb-4",
-        level > 0 && "ml-6"
+        !isRoot && "ml-8"
       )}
-      variants={nodeVariants}
-      initial="hidden"
-      animate="visible"
-      whileHover="hover"
-      onHoverStart={() => setHovering(true)}
-      onHoverEnd={() => setHovering(false)}
     >
-      {/* Connection line for non-root nodes */}
-      {level > 0 && (
-        <div className="absolute -left-6 top-4 w-6 h-px bg-gradient-to-r from-white/20 to-transparent" />
-      )}
-      
-      {/* Node content */}
+      {/* Main node card */}
       <div
         className={cn(
-          "relative group rounded-2xl border transition-all duration-300",
+          "group relative rounded-xl border overflow-hidden transition-all duration-300",
           isRoot 
-            ? "border-white/20 bg-white/5 p-6" 
-            : "border-white/10 bg-white/[0.02] p-4 hover:bg-white/[0.05]",
-          hovering && "border-white/30 shadow-lg shadow-white/10"
+            ? "border-white/30 bg-gradient-to-br from-white/10 to-white/5 p-5 mb-6 shadow-xl" 
+            : level === 1
+            ? "border-white/20 bg-white/5 p-4 mb-4 hover:bg-white/[0.08] hover:border-white/30"
+            : level === 2
+            ? "border-white/15 bg-white/[0.03] p-3 mb-3 hover:bg-white/[0.06] hover:border-white/25"
+            : "border-white/10 bg-white/[0.02] p-2.5 mb-2 hover:bg-white/[0.04] hover:border-white/20"
         )}
       >
-        <div className="flex items-start gap-3">
-          {/* Icon */}
-          <div 
-            className={cn(
-              "flex-shrink-0 rounded-xl flex items-center justify-center transition-all duration-300",
-              isRoot 
-                ? "w-12 h-12 bg-white text-black" 
-                : "w-8 h-8 bg-white/10 text-white/70 group-hover:bg-white/20 group-hover:text-white"
-            )}
-          >
-            <IconComponent className={isRoot ? "w-6 h-6" : "w-4 h-4"} />
-          </div>
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        <div className="relative flex items-start gap-3">
+          {/* Number badge */}
+          {!isRoot && (
+            <div 
+              className={cn(
+                "flex-shrink-0 flex items-center justify-center rounded-lg font-bold transition-all duration-300",
+                level === 1 
+                  ? "w-8 h-8 bg-blue-500/20 text-blue-300 text-sm" 
+                  : level === 2
+                  ? "w-7 h-7 bg-purple-500/20 text-purple-300 text-xs"
+                  : "w-6 h-6 bg-pink-500/20 text-pink-300 text-xs"
+              )}
+            >
+              {nodeNumber}
+            </div>
+          )}
+
+          {/* Icon for root */}
+          {isRoot && (
+            <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 text-white flex items-center justify-center shadow-lg">
+              <IconComponent className="w-6 h-6" />
+            </div>
+          )}
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <h3 
-              className={cn(
-                "font-semibold text-white mb-2 leading-tight",
-                isRoot ? "text-2xl" : level === 1 ? "text-lg" : "text-base"
+            <div className="flex items-center gap-2 mb-1">
+              {!isRoot && level <= 2 && (
+                <IconComponent className={cn(
+                  "flex-shrink-0",
+                  level === 1 ? "w-4 h-4 text-blue-400" : "w-3.5 h-3.5 text-purple-400"
+                )} />
               )}
-            >
-              {node.title}
-            </h3>
+              <h3 
+                className={cn(
+                  "font-semibold text-white leading-tight",
+                  isRoot 
+                    ? "text-2xl" 
+                    : level === 1 
+                    ? "text-lg" 
+                    : level === 2
+                    ? "text-base"
+                    : "text-sm"
+                )}
+              >
+                {node.title}
+              </h3>
+            </div>
 
-            {node.description && (
-              <p className="text-white/60 text-sm leading-relaxed mb-3">
-                {node.description}
-              </p>
-            )}
-
-            {/* Resources */}
+            {/* Resources - Compact inline style */}
             {node.resources && node.resources.length > 0 && (
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-white/50 text-xs uppercase tracking-wider font-medium">
-                  <LinkIcon className="w-3 h-3" />
-                  Resources
-                </div>
-                <div className="grid gap-2">
-                  {node.resources.slice(0, 3).map((resource, idx) => (
-                    <motion.a
-                      key={idx}
-                      href={resource.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group/link flex items-center gap-2 p-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-200"
-                      whileHover={{ x: 4 }}
-                    >
-                      <ExternalLink className="w-3 h-3 text-white/40 group-hover/link:text-white/70 flex-shrink-0" />
-                      <span className="text-white/70 text-sm group-hover/link:text-white truncate">
-                        {resource.title}
-                      </span>
-                    </motion.a>
-                  ))}
-                  {node.resources.length > 3 && (
-                    <div className="text-white/40 text-xs text-center py-1">
-                      +{node.resources.length - 3} more resources
-                    </div>
-                  )}
-                </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {node.resources.slice(0, 2).map((resource, idx) => (
+                  <motion.a
+                    key={idx}
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-200 text-xs text-white/70 hover:text-white"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    <span className="max-w-[150px] truncate">{resource.title}</span>
+                  </motion.a>
+                ))}
               </div>
             )}
           </div>
 
-          {/* Expand/Collapse button */}
+          {/* Expand/Collapse */}
           {hasChildren && (
             <motion.button
               onClick={() => setExpanded(!expanded)}
-              className="flex-shrink-0 w-6 h-6 rounded-full bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-all duration-200 flex items-center justify-center"
+              className={cn(
+                "flex-shrink-0 rounded-lg flex items-center justify-center transition-all duration-200",
+                level === 1
+                  ? "w-7 h-7 bg-white/10 hover:bg-white/20"
+                  : "w-6 h-6 bg-white/5 hover:bg-white/15",
+                "text-white/60 hover:text-white"
+              )}
               whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.9 }}
             >
               <motion.div
                 animate={{ rotate: expanded ? 90 : 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <ChevronRight className="w-3 h-3" />
+                <ChevronRight className={level === 1 ? "w-4 h-4" : "w-3 h-3"} />
               </motion.div>
             </motion.button>
           )}
         </div>
-
-        {/* Subtle gradient overlay on hover */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/5 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      {/* Children */}
+      {/* Children with cleaner spacing */}
       <AnimatePresence>
         {hasChildren && expanded && (
           <motion.div
-            variants={childrenVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            className="mt-4 space-y-3 overflow-hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-2 overflow-hidden"
           >
             {node.children.map((child, idx) => (
               <MindMapNode
@@ -194,6 +168,7 @@ const MindMapNode = ({ node, level = 0, index = 0 }) => {
                 node={typeof child === "string" ? { title: child } : child}
                 level={level + 1}
                 index={idx}
+                parentIndex={level === 0 ? `${index + 1}` : nodeNumber}
               />
             ))}
           </motion.div>
@@ -235,78 +210,68 @@ const ModernMindMap = ({ data }) => {
   const totalNodes = countNodes(data.subtopics);
 
   return (
-    <div className="w-full max-w-6xl mx-auto">
-      {/* Header */}
+    <div className="w-full max-w-5xl mx-auto px-4">
+      {/* Compact Header */}
       <motion.div 
-        className="relative mb-8 p-8 rounded-3xl border border-white/10 bg-white/[0.02] overflow-hidden"
+        className="relative mb-8 p-6 rounded-2xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.5 }}
       >
-        {/* Background pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent" />
-        
-        <div className="relative z-10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
-                {data.topic}
-              </h1>
-              <div className="flex items-center gap-6 text-white/60">
-                <div className="flex items-center gap-2">
-                  <Brain className="w-4 h-4" />
-                  <span className="text-sm">{totalNodes} concepts</span>
-                </div>
-                {data.subtopics && (
-                  <div className="flex items-center gap-2">
-                    <Target className="w-4 h-4" />
-                    <span className="text-sm">{data.subtopics.length} main topics</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={handleCopyData}
-                disabled={isLoading}
-                variant="outline"
-                size="sm"
-                className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30"
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copy Data
-              </Button>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+              {data.topic}
+            </h1>
+            <div className="flex items-center gap-4 text-white/60 text-sm">
+              <span className="flex items-center gap-1">
+                <Brain className="w-3.5 h-3.5" />
+                {totalNodes} concepts
+              </span>
+              <span className="flex items-center gap-1">
+                <Target className="w-3.5 h-3.5" />
+                {data.subtopics?.length || 0} topics
+              </span>
             </div>
           </div>
 
-          {/* Status message */}
-          <AnimatePresence>
-            {status.message && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className={cn(
-                  "mt-4 p-3 rounded-lg text-sm",
-                  status.type === "success" && "bg-green-500/10 text-green-400 border border-green-500/20",
-                  status.type === "error" && "bg-red-500/10 text-red-400 border border-red-500/20",
-                  status.type === "info" && "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                )}
-              >
-                {status.message}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <Button
+            onClick={handleCopyData}
+            disabled={isLoading}
+            size="sm"
+            className="bg-white text-black hover:bg-white/90 font-medium"
+          >
+            <Copy className="w-3.5 h-3.5 mr-1.5" />
+            Copy
+          </Button>
         </div>
+
+        {/* Status */}
+        <AnimatePresence>
+          {status.message && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className={cn(
+                "mt-3 p-2.5 rounded-lg text-xs font-medium",
+                status.type === "success" && "bg-green-500/10 text-green-400 border border-green-500/20",
+                status.type === "error" && "bg-red-500/10 text-red-400 border border-red-500/20",
+                status.type === "info" && "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+              )}
+            >
+              {status.message}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
-      {/* Mind Map Content */}
+      {/* Clean roadmap layout */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="space-y-6"
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="space-y-5"
       >
         {data.subtopics && data.subtopics.map((topic, index) => (
           <MindMapNode
@@ -318,17 +283,16 @@ const ModernMindMap = ({ data }) => {
         ))}
       </motion.div>
 
-      {/* Footer */}
+      {/* Minimal footer */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1 }}
-        className="mt-12 text-center"
+        transition={{ duration: 0.5, delay: 0.8 }}
+        className="mt-10 py-6 text-center border-t border-white/10"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/50 text-sm">
-          <Zap className="w-3 h-3" />
-          Generated by Maplify AI
-        </div>
+        <p className="text-white/40 text-xs">
+          Powered by Maplify AI • {totalNodes} learning concepts
+        </p>
       </motion.div>
     </div>
   );
